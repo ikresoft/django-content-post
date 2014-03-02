@@ -1,11 +1,11 @@
-{% extends "polyart/polyart_base.html" %}
+{% extends "content_post/base.html" %}
 
 {% block content %}
-  <h1>Story Archive for week of {{ week|date:"F d Y" }}</h1>
-  {% for story in story_list %}
-    {% ifchanged story.publish_date %}
-      <h2>{{ story.publish_date|date:"F d Y"}}</h2>
+  <h1>Content Archive for week of {{ week|date:"F d Y" }}</h1>
+  {% for object in object_list %}
+    {% ifchanged object.publish_date %}
+      <h2>{{ object.publish_date|date:"F d Y"}}</h2>
     {% endifchanged %}
-    <p><a href="{{ story.get_absolute_url }}">{{ story.headline }}</a></p>
+    <p><a href="{{ object.get_absolute_url }}">{{ object.headline }}</a></p>
   {% endfor %}
 {% endblock %}

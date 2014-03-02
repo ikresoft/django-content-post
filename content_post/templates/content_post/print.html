@@ -1,9 +1,9 @@
-{% extends "polyart/polyart_base.html" %}
+{% extends "content_post/base.html" %}
 
 {% block content %}
-  <h1>{{ story.headline }}</h1>
-  {% if story.subheadline %}<h2>{{ story.subheadline|safe }}</h2>{% endif %}
-  <p class="byline">By {{ story.author }}</p>
+  <h1>{{ object.headline }}</h1>
+  {% if object.subheadline %}<h2>{{ object.subheadline|safe }}</h2>{% endif %}
+  <p class="byline">By {{ object.author }}</p>
   <hr/>
-  {{ story.body|safe }}
+  {{ object.body|safe }}
 {% endblock %}
