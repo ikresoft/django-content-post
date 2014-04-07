@@ -8,11 +8,11 @@ from django.utils.translation import ugettext_lazy as _
 from content import settings
 from content.admin import ChildAdmin
 from forms import PostForm
-from models import Post
+from content_post import get_post_model
 
 
 class PostAdmin(ChildAdmin):
-    base_model = Post
+    base_model = get_post_model()
     fieldsets = (
         (None, {
             'fields': ('title', 'subhead', 'tease_title',

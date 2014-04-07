@@ -9,12 +9,12 @@ except ImportError:
 from django.views.generic import (ArchiveIndexView, YearArchiveView,
     MonthArchiveView, WeekArchiveView, DayArchiveView, TodayArchiveView,
     DateDetailView)
-from models import Post
+from content_post import get_post_model
 
 from views import PathArchiveIndexView
 
 info_dict = {
-    'queryset': Post.published.all(),
+    'queryset': get_post_model().published.all(),
     'date_field': 'publish_date',
     'allow_empty': True
 }

@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from content import settings
 from content.models import Content
 
-class Post(Content):
+class BasePost(Content):
     teaser = models.TextField(_("Teaser Text"), blank=True)
     tease_title = models.CharField(
         _("Tease Headline"),
@@ -35,7 +35,7 @@ class Post(Content):
         """
         if self.status == settings.PUBLISHED_STATUS:
             self.slug = Content.objects.get_unique_slug(self.publish_date, self.slug, self.id)
-        super(Post, self).save(*args, **kwargs)
+        super(BasePost, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         if self.publish_date is None:
@@ -46,6 +46,14 @@ class Post(Content):
             'day': self.publish_date.day,
             'slug': self.slug
         })
+
+    class Meta(Content.Meta):
+        abstract = True
+
+class Post(BasePost):
+
+    class Meta(BasePost.Meta):
+        swappable = 'CONTENT_POST_MODEL'
 
 
 # Reversion integration

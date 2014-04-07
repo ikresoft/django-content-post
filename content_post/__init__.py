@@ -21,3 +21,20 @@ def get_version(short=False):
     return ''.join(vers)
 
 __version__ = get_version()
+
+from content_post import settings
+
+def get_post_model():
+    """
+    Returns the User model that is active in this project.
+    """
+    from django.db.models import get_model
+
+    try:
+        app_label, model_name = settings.POST_MODEL.split('.')
+    except ValueError:
+        raise ImproperlyConfigured("CONTENT_POST_MODEL must be of the form 'app_label.model_name'")
+    user_model = get_model(app_label, model_name)
+    if user_model is None:
+        raise ImproperlyConfigured("CONTENT_POST_MODEL refers to model '%s' that has not been installed" % settings.POST_MODEL)
+    return user_model
