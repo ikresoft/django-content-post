@@ -8,14 +8,18 @@ from nav_tree.forms import BaseUrlForm
 
 
 class PostCategoryIndexForm(BaseUrlForm):
-    category = models.ModelChoiceField(queryset=Category.objects.all())
+    categories = models.ModelMultipleChoiceField(queryset=Category.objects.all())
 
-    def path(self):
-        ancestors = list(self.cleaned_data['category'].get_ancestors()) + [self.cleaned_data['category'], ]
-        return '/'.join([force_unicode(i.slug) for i in ancestors])
+    def get_path(self):
+        paths = []
+        for category in self.cleaned_data['categories']:
+            ancestors = list(category.get_ancestors()) + [category, ]
+            path = '/'.join([force_unicode(i.slug) for i in ancestors])
+            paths.append(path)
+        return ",".join([path for path in paths])
 
     def submit(self):
-        url = "%s %s" % (self.Meta.url_name, self.path())
+        url = "%s %s" % (self.Meta.url_name, r"'%s'" % self.get_path())
         return url
 
     class Meta:

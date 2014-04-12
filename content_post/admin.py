@@ -34,7 +34,7 @@ class PostAdmin(ChildAdmin):
 
     fieldsets = fieldsets + ((_('Advanced Options'), {
             'fields': ('slug', ('publish_date', 'publish_time'),
-                       'update_date', 'site', ),
+                       'date_modified', 'site', ),
             'classes': ('collapse',),
         }),)
     form = PostForm

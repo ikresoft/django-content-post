@@ -13,8 +13,10 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.utils.text import slugify
 from content import settings
 from content.models import Content
+
 
 class BasePost(Content):
     teaser = models.TextField(_("Teaser Text"), blank=True)
@@ -30,12 +32,14 @@ class BasePost(Content):
         null=True)
 
     def save(self, *args, **kwargs):
-        """
-        Enforce setting of publish date and time if it is published.
-        """
-        if self.status == settings.PUBLISHED_STATUS:
-            self.slug = Content.objects.get_unique_slug(self.publish_date, self.slug, self.id)
+
         super(BasePost, self).save(*args, **kwargs)
+
+    def get_slug(self):
+        self.slug = slugify(self.title)
+        if self.status == settings.PUBLISHED_STATUS:
+            return Content.objects.get_unique_slug(self.publish_date, self.slug, self.id)
+        return self.slug
 
     def get_absolute_url(self):
         if self.publish_date is None:
@@ -49,6 +53,7 @@ class BasePost(Content):
 
     class Meta(Content.Meta):
         abstract = True
+
 
 class Post(BasePost):
 
