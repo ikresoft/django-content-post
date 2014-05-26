@@ -11,7 +11,8 @@ from django.views.generic import (ArchiveIndexView, YearArchiveView,
     DateDetailView)
 from content_post import get_post_model
 
-from views import PostsByCategoryListView, PostDetailView
+from category_content.views import CategoryContentListView
+from views import *
 
 info_dict = {
     'queryset': get_post_model().published.all(),
@@ -29,14 +30,14 @@ urlpatterns = patterns('',
     # post detail
     url(
         r'^category/(?P<path>.+)/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
-        PostDetailView.as_view(),
+        PostView.as_view(),
         name='category_post_detail'
     ),
 
     # news archive index
     url(
         r'^category/(?P<path>.+)/$',
-        PostsByCategoryListView.as_view(),
+        CategoryContentListView.as_view(),
         name='post_archive_index'
     ),
     # news archive year list

@@ -6,10 +6,11 @@ import datetime
 from django import forms
 from django.utils.translation import ugettext as _
 
-from models import Post
-from content.forms import ContentForm, SlugMixin, WIDGET_ATTRS
+from models import CategoryContent
+from content.forms import WIDGET_ATTRS
+from category_content.forms import CategoryContentForm
 
-class PostForm(ContentForm, SlugMixin):
+class PostForm(CategoryContentForm):
     subhead = forms.CharField(
         widget=forms.TextInput(attrs=WIDGET_ATTRS),
         max_length=200,

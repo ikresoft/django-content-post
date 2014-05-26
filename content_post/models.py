@@ -15,10 +15,10 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.utils.text import slugify
 from content import settings
-from content.models import Content
+from category_content.models import CategoryContent
 
 
-class BasePost(Content):
+class BasePost(CategoryContent):
     teaser = models.TextField(_("Teaser Text"), blank=True)
     tease_title = models.CharField(
         _("Tease Headline"),
@@ -38,20 +38,21 @@ class BasePost(Content):
     def get_slug(self):
         self.slug = slugify(self.title)
         if self.status == settings.PUBLISHED_STATUS:
-            return Content.objects.get_unique_slug(self.publish_date, self.slug, self.id)
+            return Content.objects.get_unique_slug(self.date_modified, self.slug, self.id)
         return self.slug
 
     def get_absolute_url(self):
         if self.publish_date is None:
             return ""
-        return reverse('post_detail', args=tuple(), kwargs={
+        return reverse('category_post_detail', args=tuple(), kwargs={
+            'path': self.categories.all()[0].slug,
             'year': self.publish_date.year,
             'month': self.publish_date.strftime('%b').lower(),
             'day': self.publish_date.day,
             'slug': self.slug
         })
 
-    class Meta(Content.Meta):
+    class Meta(CategoryContent.Meta):
         abstract = True
 
 
