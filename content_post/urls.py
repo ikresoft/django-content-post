@@ -16,18 +16,13 @@ from views import *
 
 info_dict = {
     'queryset': get_post_model().published.all(),
-    'date_field': 'publish_date',
+    'date_field': 'date_',
     'allow_empty': True
 }
 
-post_info_dict = dict(info_dict.items() + [('template_name', 'content_post/detail.html')])
-post_info_dict.pop('allow_empty')
-
-print_info_dict = dict(info_dict.items() + [('template_name', 'content_post/print.html')])
-print_info_dict.pop('allow_empty')
 
 urlpatterns = patterns('',
-    # post detail
+    #post detail
     url(
         r'^category/(?P<path>.+)/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
         PostView.as_view(),
@@ -69,11 +64,5 @@ urlpatterns = patterns('',
         r'^category/(?P<path>.+)/today/$',
         TodayArchiveView.as_view(**info_dict),
         name='post_archive_day'
-    ),
-    #story print detail
-    url(
-        r'^(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/print/$',
-        DateDetailView.as_view(**print_info_dict),
-        name='post_detail_print',
     ),
 )
