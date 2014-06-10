@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from django.contrib import admin
 from django import forms
 from django.conf import settings as site_settings
 from django.utils.translation import ugettext_lazy as _
 
 from content import settings
-from content.admin import ChildAdmin
-from forms import PostForm
+from category_content.admin import CategoryContentAdmin
 from content_post import get_post_model
 
-
-class PostAdmin(ChildAdmin):
-    base_model = get_post_model()
+class PostAdmin(CategoryContentAdmin):
     fieldsets = (
         (None, {
             'fields': ('title', 'body')
@@ -29,4 +26,5 @@ class PostAdmin(ChildAdmin):
             'fields': ('slug', 'date_modified', 'site', ),
             'classes': ('collapse',),
         }),)
-    form = PostForm
+
+admin.site.register(get_post_model(), PostAdmin)
