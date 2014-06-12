@@ -18,6 +18,7 @@ from content import settings
 from content.models import Content
 from category_content.models import CategoryContent
 
+from modeltranslation.utils import get_language
 
 class BasePost(CategoryContent):
 
