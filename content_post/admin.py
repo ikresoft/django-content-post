@@ -12,7 +12,7 @@ from content_post import get_post_model
 class PostAdmin(CategoryContentAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'body')
+            'fields': (('title', 'slug'), 'body')
         }),
         ('Categories', {
             'fields': ('categories',),
@@ -23,7 +23,7 @@ class PostAdmin(CategoryContentAdmin):
         }),)
 
     fieldsets = fieldsets + ((_('Advanced Options'), {
-            'fields': ('slug', 'date_modified', 'site', ),
+            'fields': ('date_modified', 'site', ),
             'classes': ('collapse',),
         }),)
 

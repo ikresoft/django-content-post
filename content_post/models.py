@@ -18,7 +18,6 @@ from content import settings
 from content.models import Content
 from category_content.models import CategoryContent
 
-from modeltranslation.utils import get_language
 
 class BasePost(CategoryContent):
 
@@ -31,9 +30,11 @@ class BasePost(CategoryContent):
         self.slug = slugify(self.title)
         return Content.objects.get_unique_slug(self.date_modified, self.slug, self.id)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self, category=None):
+        if category is None:
+            category = self.categories.all()[0]
         return reverse('category_post_detail', args=tuple(), kwargs={
-            'path': self.categories.all()[0].slug,
+            'path': category.slug,
             'year': self.date_modified.year,
             'month': self.date_modified.strftime('%b').lower(),
             'day': self.date_modified.day,
