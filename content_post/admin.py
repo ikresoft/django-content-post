@@ -10,6 +10,7 @@ from content_post import get_post_model
 from forms import PostForm
 
 class PostAdmin(CategoryContentAdmin):
+    change_form_template = "admin/content_post/post/change_form.html"
     fieldsets = (
         (None, {
             'fields': (
