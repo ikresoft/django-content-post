@@ -6,8 +6,6 @@ This module provides the Post model for reporting news, events, info etc.
 """
 import re
 
-from datetime import datetime
-
 from django.conf import settings as site_settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
