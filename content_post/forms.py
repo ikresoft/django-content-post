@@ -15,7 +15,7 @@ class PostForm(CategoryContentForm):
         cleaned_data = super(PostForm, self).clean()
 
         """The slug + the date_modified must be unique together"""
-        if 'date_modified' in cleaned_data:
+        if 'date_modified' in cleaned_data and self.instance.pk is None:
             date_modified = cleaned_data['date_modified']
             try:
                 get_post_model().objects.get(
