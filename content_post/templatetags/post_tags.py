@@ -111,6 +111,9 @@ class LatestPosts(template.Node):
         else:
             context[self.var_name] = query.all()[:self.limit]
 
+        if self.limit == 1:
+            context[self.var_name] = context[self.var_name][0]
+
         return ''
 
 

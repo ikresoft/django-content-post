@@ -15,10 +15,28 @@ from django.utils.text import slugify
 from content import settings
 from content.models import Content
 from category_content.models import CategoryContent
+from bs4 import BeautifulSoup
 
+VALID_TAGS = ['strong', ]
+
+def sanitize_html(value):
+
+    soup = BeautifulSoup(value)
+
+    for tag in soup.findAll(True):
+        if tag.name not in VALID_TAGS:
+            tag.hidden = True
+
+    return soup.renderContents()
 
 class BasePost(CategoryContent):
 
+    def get_headline(self):
+        try:
+            return sanitize_html(self.body[:self.body.index('<!--more--')])
+        except:
+            return ''
+    headline = property(get_headline)
 
     def save(self, *args, **kwargs):
 
