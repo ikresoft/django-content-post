@@ -144,8 +144,9 @@ class PopularPosts(template.Node):
         self.limit = int(limit)
 
     def render(self, context):
-        from datetime import datetime, timedelta
-        enddate = datetime.today()
+        from datetime import timedelta
+        from django.utils import timezone
+        enddate = timezone.today()
         startdate = enddate - timedelta(days=1)
         query = get_post_model().with_counter.filter(date_modified__range=[startdate, enddate])
         if not query:
