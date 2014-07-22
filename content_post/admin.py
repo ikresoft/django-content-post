@@ -13,16 +13,18 @@ class PostAdmin(CategoryContentAdmin):
     change_form_template = "admin/content_post/post/change_form.html"
     fieldsets = (
         (None, {
-            'fields': (
+            'fields':
                 ('title', 'slug'),
-                'body',
-                'tags',)
+        }),
+        (_('Content'), {
+            'fields': ('body',),
+            'classes': ('full-width',),
         }),
         ('Categories', {
             'fields': ('categories',),
         }),
         (_('Post data'), {
-            'fields': ('authors', 'non_staff_author',
+            'fields': ('tags', 'authors', 'non_staff_author',
                        'status', 'origin', 'allow_comments', 'allow_pings', 'is_sticky')
         }),)
 
