@@ -19,6 +19,12 @@ info_dict = {
     'allow_empty': True
 }
 
+from rest_framework.routers import DefaultRouter
+from api import PostViewSet
+
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'post', PostViewSet)
 
 urlpatterns = patterns('',
     #post detail
