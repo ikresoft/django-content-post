@@ -19,6 +19,7 @@ from bs4 import BeautifulSoup
 
 VALID_TAGS = ['strong', ]
 
+
 def sanitize_html(value):
 
     soup = BeautifulSoup(value)
@@ -28,6 +29,7 @@ def sanitize_html(value):
             tag.hidden = True
 
     return soup.renderContents()
+
 
 class BasePost(CategoryContent):
 

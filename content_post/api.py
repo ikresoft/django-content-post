@@ -1,4 +1,4 @@
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, filters
 from models import *
 
 
@@ -26,3 +26,12 @@ class PostSerializer(serializers.ModelSerializer):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter,)
+    filter_fields = ('id', 'title', 'categories')
+
+    def filter_queryset(self, queryset):
+        queryset = super(PostViewSet, self).filter_queryset(queryset)
+        limit = self.request.QUERY_PARAMS.get('limit_stop', None)
+        if limit:
+            return queryset[:limit]
+        return queryset
