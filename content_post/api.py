@@ -1,11 +1,19 @@
 from rest_framework import serializers, viewsets, filters
 from models import *
+from categories.models import Category
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'slug')
 
 
 class PostSerializer(serializers.ModelSerializer):
     image_200x150 = serializers.SerializerMethodField('get_image_200x150')
     headline = serializers.CharField('headline')
     link_url = serializers.SerializerMethodField('get_link_url')
+    categories = CategorySerializer()
 
     def get_image_200x150(self, obj):
         host = self.context["request"].get_host()
@@ -17,7 +25,8 @@ class PostSerializer(serializers.ModelSerializer):
         return ''
 
     def get_link_url(self, obj):
-        return ''
+        host = self.context["request"].get_host()
+        return 'http://%s%s' % (host, obj.get_absolute_url())
 
     class Meta:
         model = Post
