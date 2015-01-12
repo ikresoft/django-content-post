@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     image_200x150 = serializers.SerializerMethodField('get_image_200x150')
-    headline = serializers.CharField('headline')
+    headline = serializers.CharField(source='headline')
     link_url = serializers.SerializerMethodField('get_link_url')
     categories = CategorySerializer()
 

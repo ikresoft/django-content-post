@@ -22,13 +22,14 @@ def get_version(short=False):
 
 __version__ = get_version()
 
-from content_post import settings
 
 def get_post_model():
     """
     Returns the User model that is active in this project.
     """
     from django.db.models import get_model
+    from content_post import settings
+    from django.core.exceptions import ImproperlyConfigured
 
     try:
         app_label, model_name = settings.POST_MODEL.split('.')
