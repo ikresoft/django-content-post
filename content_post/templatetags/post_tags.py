@@ -1,10 +1,10 @@
 from django import template
-from django.template import RequestContext
-from django.template.loader import render_to_string
 from content_post import get_post_model
+from content.models import Category
 from categories.views import get_category_for_path
 
 register = template.Library()
+
 
 class PostByCategoryNode(template.Node):
 
@@ -16,15 +16,16 @@ class PostByCategoryNode(template.Node):
         t = template.loader.get_template(self.template)
         if isinstance(self.category, basestring):
             try:
-                self.category = get_category_for_path(self.category)
+                self.category = get_category_for_path(self.category, queryset=Category.objects.all())
                 posts = get_post_model().published.filter(categories=self.category)
                 context['posts'] = posts
             except:
                 pass
         return t.render(context)
 
+
 def posts_by_category(parser, token):
-    template_name="content_post/templatetags/posts_by_category.html"
+    template_name = "content_post/templatetags/posts_by_category.html"
     try:
         tag_name, category, template_name = token.split_contents()
         if not (template_name[0] == template_name[-1] and template_name[0] in ('"', "'")):
@@ -40,6 +41,7 @@ def posts_by_category(parser, token):
 
 register.tag('posts_by_category', posts_by_category)
 
+
 class PostsByCategoryNode(template.Node):
 
     def __init__(self, category, limit, var_name, random=False):
@@ -54,7 +56,7 @@ class PostsByCategoryNode(template.Node):
             return ''
         try:
             query = get_post_model().site_objects.filter(feed__category=self.category)
-            if self.random == True:
+            if self.random is True:
                 query = query.order_by('?')
 
             if self.limit == -1:
@@ -78,7 +80,7 @@ def get_posts_by_category(parser, token):
         raise TemplateSyntaxError("get_content_by_category tag takes exactly four arguments")
     if (category[0] == category[-1] and category[0] in ('"', "'")):
         try:
-            category = get_category_for_path(category[1:-1])
+            category = get_category_for_path(category[1:-1], queryset=Category.objects.all())
         except:
             category = None
     else:
@@ -130,7 +132,7 @@ def get_latest_posts(parser, token):
             try:
                 cats = [x.strip() for x in category[1:-1].split(',')]
                 for cat in cats:
-                    category_list.append(get_category_for_path(cat))
+                    category_list.append(get_category_for_path(cat, queryset=Category.objects.all()))
             except:
                 pass
         else:
@@ -177,7 +179,7 @@ def get_popular_posts(parser, token):
     if category != '':
         if (category[0] == category[-1] and category[0] in ('"', "'")):
             try:
-                category = get_category_for_path(category[1:-1])
+                category = get_category_for_path(category[1:-1], queryset=Category.objects.all())
             except:
                 category = None
         else:

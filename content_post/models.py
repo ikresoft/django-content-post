@@ -4,17 +4,13 @@
 """
 This module provides the Post model for reporting news, events, info etc.
 """
-import re
 
 from django.conf import settings as site_settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
-from django.db import models
-from django.utils.translation import ugettext as _
 from django.utils.text import slugify
 from content import settings
-from content.models import Content
-from category_content.models import CategoryContent
+from content.models import Content, CategoryContent
 from bs4 import BeautifulSoup
 
 VALID_TAGS = ['strong', ]

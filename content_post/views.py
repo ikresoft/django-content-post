@@ -1,6 +1,6 @@
 from django.views.generic.dates import DateMixin
 
-from category_content.views import CategoryContentListView, CategoryContentDetailView
+from content.views import CategoryContentListView, CategoryContentDetailView
 from content_post import get_post_model
 
 
