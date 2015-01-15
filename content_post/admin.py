@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from content.admin import CategoryContentAdmin
 from content_post import get_post_model
 from forms import PostForm
-import translation
 
 
 class PostAdmin(CategoryContentAdmin):
