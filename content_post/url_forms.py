@@ -3,8 +3,8 @@ from django.core import urlresolvers
 from django.utils.encoding import force_unicode
 
 from categories.models import Category
-from nav_tree import form_registry
-from nav_tree.forms import BaseUrlForm
+from url_browser import form_registry
+from url_browser.forms import BaseUrlForm
 
 
 class PostCategoryIndexForm(BaseUrlForm):
