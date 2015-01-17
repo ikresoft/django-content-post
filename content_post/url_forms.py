@@ -19,7 +19,7 @@ class PostCategoryIndexForm(BaseUrlForm):
         return ",".join([path for path in paths])
 
     def submit(self):
-        url = "%s %s" % (self.Meta.url_name, r"'%s'" % self.get_path())
+        url = "'%s' '%s'" % (self.Meta.url_name, self.get_path())
         return url
 
     class Meta:
