@@ -5,6 +5,7 @@ from django.forms import forms
 from django.utils.translation import get_language
 from content_post import get_post_model
 from content.forms import CategoryContentForm
+from content import settings
 
 
 class PostForm(CategoryContentForm):
@@ -16,7 +17,7 @@ class PostForm(CategoryContentForm):
             date_modified = cleaned_data['date_modified']
             try:
                 get_post_model().objects.get(
-                    slug=self.cleaned_data['slug%s' % ('_' + get_language().replace('-', '_'))],
+                    slug=self.cleaned_data[('slug_' + get_language().replace('-', '_')) if settings.USE_TRANSLATION else 'slug'],
                     date_modified__year=date_modified.year,
                     date_modified__month=date_modified.month,
                     date_modified__day=date_modified.day)
