@@ -55,9 +55,11 @@ class PostsByCategoryNode(template.Node):
             context[self.var_name] = None
             return ''
         try:
-            query = get_post_model().site_objects.filter(feed__category=self.category)
+            query = get_post_model().published.filter(categories__in=[self.category])
             if self.random is True:
                 query = query.order_by('?')
+            else:
+                query = query.order_by('-date_created')
 
             if self.limit == -1:
                 context[self.var_name] = query.all()
@@ -77,7 +79,7 @@ def get_posts_by_category(parser, token):
     try:
         tag_name, category, limit, random, _as, var_name = token.split_contents()
     except:
-        raise TemplateSyntaxError("get_content_by_category tag takes exactly four arguments")
+        raise template.TemplateSyntaxError("get_content_by_category tag takes exactly four arguments")
     if (category[0] == category[-1] and category[0] in ('"', "'")):
         try:
             category = get_category_for_path(category[1:-1], queryset=Category.objects.all())
@@ -124,7 +126,7 @@ def get_latest_posts(parser, token):
     try:
         tag_name, limit, category, _as, var_name = token.split_contents()
     except:
-        raise TemplateSyntaxError("get_latest_posts tag takes exactly three arguments")
+        raise template.TemplateSyntaxError("get_latest_posts tag takes exactly three arguments")
 
     category_list = []
     if category != '':
@@ -174,7 +176,7 @@ def get_popular_posts(parser, token):
     try:
         tag_name, limit, category, _as, var_name = token.split_contents()
     except:
-        raise TemplateSyntaxError("get_popular_posts tag takes exactly three arguments")
+        raise template.TemplateSyntaxError("get_popular_posts tag takes exactly three arguments")
 
     if category != '':
         if (category[0] == category[-1] and category[0] in ('"', "'")):
