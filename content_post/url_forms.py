@@ -40,7 +40,15 @@ class PostDetailForm(BaseUrlForm):
     post = PostChoicesField(widget=AutoHeavySelect2Widget(attrs={"style": "width:400px;"}))
 
     def submit(self):
-        url = "'%s' %d" % (self.Meta.url_name, self.cleaned_data["post"].pk)
+        post = self.cleaned_data["post"]
+        url = "'%s' '%s' '%s' '%s' '%s' '%s'" % (
+            self.Meta.url_name,
+            post.categories.all()[0].slug,
+            post.date_modified.year,
+            post.date_modified.strftime('%b').lower(),
+            post.date_modified.day,
+            post.slug,
+        )
         return url
 
     class Meta:
