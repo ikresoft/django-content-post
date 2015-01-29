@@ -8,7 +8,7 @@ This module provides the Post model for reporting news, events, info etc.
 from django.conf import settings as site_settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
-from django.utils.text import slugify
+from slugify import slugify
 from content import settings
 from content.models import Content, CategoryContent
 from bs4 import BeautifulSoup
