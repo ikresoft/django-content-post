@@ -6,18 +6,11 @@ try:
     from django.conf.urls.defaults import patterns, url
 except ImportError:
     from django.conf.urls import patterns, url
-from django.views.generic import (ArchiveIndexView, YearArchiveView,
-    MonthArchiveView, WeekArchiveView, DayArchiveView, TodayArchiveView,
-    DateDetailView)
+from django.views.generic import (
+    YearArchiveView, MonthArchiveView, WeekArchiveView, DayArchiveView, TodayArchiveView
+)
 from content_post import get_post_model
-
 from views import *
-
-info_dict = {
-    'queryset': get_post_model().published.all(),
-    'date_field': 'date_',
-    'allow_empty': True
-}
 
 from rest_framework.routers import DefaultRouter
 from api import PostViewSet
@@ -26,8 +19,14 @@ from api import PostViewSet
 router = DefaultRouter()
 router.register(r'post', PostViewSet)
 
+info_dict = {
+    'queryset': get_post_model().published.all(),
+    'date_field': 'date_',
+    'allow_empty': True
+}
+
 urlpatterns = patterns('',
-    #post detail
+    # post detail
     url(
         r'^category/(?P<path>.+)/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
         PostView.as_view(),

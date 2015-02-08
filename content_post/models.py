@@ -44,7 +44,7 @@ class BasePost(CategoryContent):
         self.slug = slugify(self.title, ok='-_', only_ascii=True)
         return Content.objects.get_unique_slug(self.date_modified, self.slug, self.id)
 
-    def get_absolute_url(self, category=None):
+    def get_absolute_url(self, category=None, lang=None):
         if category is None:
             category = self.categories.all()[0]
         return reverse('category_post_detail', args=tuple(), kwargs={
