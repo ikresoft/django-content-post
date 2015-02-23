@@ -13,14 +13,18 @@ class PostByCategoryNode(template.Node):
         self.template = template
 
     def render(self, context):
+        posts = None
         t = template.loader.get_template(self.template)
         if isinstance(self.category, basestring):
             try:
                 self.category = get_category_for_path(self.category, queryset=Category.objects.all())
                 posts = get_post_model().published.filter(categories=self.category)
-                context['posts'] = posts
             except:
                 pass
+        else:
+            posts = get_post_model().published.filter(categories=self.category)
+        if posts:
+            context['posts'] = posts
         return t.render(context)
 
 
@@ -36,6 +40,8 @@ def posts_by_category(parser, token):
         except:
             raise template.TemplateSyntaxError("%r tag requires a category argument" % token.contents.split()[0])
     category = category[1:-1]
+    if category.isdigit():
+        category = int(category)
     template_name = template_name[1:-1]
     return PostByCategoryNode(category, template_name)
 
