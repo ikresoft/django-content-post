@@ -28,7 +28,7 @@ info_dict = {
 urlpatterns = patterns('',
     # post detail
     url(
-        r'^category/(?P<path>.+)/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
+        r'^(?P<path>.+)/(?P<year>\d{4})/(?P<month>\w{3})/(?P<day>\d{1,2})/(?P<slug>[-\w]+)/$',
         PostView.as_view(),
         name='category_post_detail'
     ),
